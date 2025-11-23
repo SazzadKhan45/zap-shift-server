@@ -32,6 +32,11 @@ async function run() {
     const parcelsCollections = db.collection("Parcels");
 
     // Parcels api list ---------------------
+
+    // Parcel Get Api
+    app.get("/parcels", async (req, res) => {
+      console.log("Ok");
+    });
     // Parcel Post Api
     app.post("/parcels", async (req, res) => {
       try {
