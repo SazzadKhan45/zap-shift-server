@@ -35,8 +35,30 @@ async function run() {
 
     // Parcel Get Api
     app.get("/parcels", async (req, res) => {
-      console.log("Ok");
+      try {
+        const query = {};
+        const { email } = req.query;
+
+        //
+        const cursor = parcelsCollections.find(query);
+        const result = await cursor.toArray();
+
+        // Send response
+        res.status(200).json({
+          success: true,
+          message: "Parcels fetched successfully",
+          data: result,
+        });
+      } catch (error) {
+        console.error("Error fetching parcels:", error);
+
+        res.status(500).json({
+          success: false,
+          message: "Failed to fetch parcels",
+        });
+      }
     });
+
     // Parcel Post Api
     app.post("/parcels", async (req, res) => {
       try {
