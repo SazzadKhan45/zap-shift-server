@@ -39,6 +39,11 @@ async function run() {
         const query = {};
         const { email } = req.query;
 
+        // Check parcel by sender email
+        if (email) {
+          query.senderEmail = email;
+        }
+
         //
         const cursor = parcelsCollections.find(query);
         const result = await cursor.toArray();
