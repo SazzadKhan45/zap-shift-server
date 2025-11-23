@@ -31,12 +31,31 @@ async function run() {
     const db = client.db("Zap-shift-db");
     const parcelsCollections = db.collection("Parcels");
 
-
-    // Parcels api list
+    // Parcels api list ---------------------
     // Parcel Post Api
-    app.post('/parcels', async(req, res)=>{
-        const 
-    })
+    app.post("/parcels", async (req, res) => {
+      try {
+        const parcel = req.body;
+
+        // Validate input (optional but recommended)
+        if (!parcel) {
+          return res.status(400).send({ message: "Invalid parcel data" });
+        }
+
+        const result = await parcelsCollections.insertOne(parcel);
+
+        res.status(201).send({
+          message: "Parcel data successfully store",
+          data: result,
+        });
+      } catch (error) {
+        console.error("Error creating parcel:", error);
+        res.status(500).send({
+          message: "Failed to create parcel",
+          error: error.message,
+        });
+      }
+    });
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
